@@ -41,6 +41,7 @@ ElectionsScraper - scrapes data from public server volby.cz and saves them into 
 - Python is the program executing script, main.py is name of the script
 - First argument is url address of scraped district. You can access it by opening the link mentioned above: https://volby.cz/pls/ps2017nss/ps3?xjazyk=CZ and clicking on any X symbol in column named  "Výběr obce". Please, see the picture from the screenshot section.
 - Second argument is name of future CSV file to be made. I recommend to name it after okres(district) name. 
+- You can see an example file named "Vyškov" made by the command from above uploaded to this repository.
 
 ## Room for Improvement
 - Dividing script into two files and creating main() fuction called by if __name__ == "__main__" expression to get better structured and cleaner code
