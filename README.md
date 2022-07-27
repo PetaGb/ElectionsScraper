@@ -44,9 +44,7 @@ ElectionsScraper - scrapes data from public server volby.cz and saves them into 
 - You can see an example file named "Vyškov" made by the command from above uploaded to this repository.
 
 ## Room for Improvement
-- Dividing script into two files and creating main() fuction called by if __name__ == "__main__" expression to get better structured and cleaner code
 - Creating analogous script using Pandas module
-
 
 ## Acknowledgements
 - Automate the Boring Stuff book helped me with this project
