@@ -103,89 +103,30 @@ def jmena_stran(url):
     return nazvy
 
 
-def vysledky_1(url):
-
-    ods = []
-    rn = []
-    cos = []
-    cssd = []
-    rc = []
-    starostove = []
-    kscm = []
-    zeleni = []
-    rozumni = []
-    svobodni = []
-    blok = []
-    oda = []
-    pirati = []
+def vysledky(url):
 
     res = requests.get(url)
     election_soup = bs4.BeautifulSoup(res.text, 'html.parser')
     elems = election_soup.select('td[class="cislo"] a')
 
-    for elem in elems:
+    party_list = []
 
+    for elem in elems:
         url_to_open = "https://volby.cz/pls/ps2017nss/" + elem.get("href")
         muni_res = requests.get(url_to_open)
         muni_soup = bs4.BeautifulSoup(muni_res.text, 'html.parser')
-        vysledek = muni_soup.find_all("td", {"headers": "t1sa2 t1sb3"})
+        tables = muni_soup.find_all("div", {"class": "t2_470"})
 
-        ods.append(vysledek[0].string)
-        rn.append(vysledek[1].string)
-        cos.append(vysledek[2].string)
-        cssd.append(vysledek[3].string)
-        rc.append(vysledek[4].string)
-        starostove.append(vysledek[5].string)
-        kscm.append(vysledek[6].string)
-        zeleni.append(vysledek[7].string)
-        rozumni.append(vysledek[8].string)
-        svobodni.append(vysledek[9].string)
-        blok.append(vysledek[10].string)
-        oda.append(vysledek[11].string)
-        pirati.append(vysledek[12].string)
+        party = []
+        for table in tables:
+            cislice = table.select('td[class="cislo"]')[1::3]
 
-    return ods, rn, cos, cssd, rc, starostove, kscm, zeleni, rozumni, svobodni, blok, oda, pirati
+            for cislo in cislice:
+                stringed_cislo = cislo.string
+                party.append(stringed_cislo)
 
+        party_list.append(party)
 
-def vysledky_2(url):
+    reversed_lists = list(map(list, zip(*party_list)))
 
-    referendum = []
-    top = []
-    ano = []
-    dv = []
-    spr = []
-    kdu = []
-    csns = []
-    realiste = []
-    sportovci = []
-    dsss = []
-    spd = []
-    spo = []
-    ns = []
-
-    res = requests.get(url)
-    election_soup = bs4.BeautifulSoup(res.text, 'html.parser')
-    elems = election_soup.select('td[class="cislo"] a')
-
-    for elem in elems:
-
-        url_to_open = "https://volby.cz/pls/ps2017nss/" + elem.get("href")
-        muni_res = requests.get(url_to_open)
-        muni_soup = bs4.BeautifulSoup(muni_res.text, 'html.parser')
-        vysledek = muni_soup.find_all("td", {"headers": "t2sa2 t2sb3"})
-
-        referendum.append(vysledek[0].string)
-        top.append(vysledek[1].string)
-        ano.append(vysledek[2].string)
-        dv.append(vysledek[3].string)
-        spr.append(vysledek[4].string)
-        kdu.append(vysledek[5].string)
-        csns.append(vysledek[6].string)
-        realiste.append(vysledek[7].string)
-        sportovci.append(vysledek[8].string)
-        dsss.append(vysledek[9].string)
-        spd.append(vysledek[10].string)
-        spo.append(vysledek[11].string)
-        ns.append(vysledek[12].string)
-
-    return referendum, top, ano, dv, spr, kdu, csns, realiste, sportovci, dsss, spd, spo, ns
+    return reversed_lists
